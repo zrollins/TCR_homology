@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr 18 12:47:24 2022
+
+@author: zrollins
+"""
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pymbar import timeseries
+
+plt.rcParams["font.family"] = "Arial"
+plt.rc('xtick',labelsize=20)
+plt.rc('ytick',labelsize=20)
+
+t1, a = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/afold/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t1.append(float(cols[0]))
+            a.append(float(cols[1]))
+            
+t2, b = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0002/afold/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t2.append(float(cols[0]))
+            b.append(float(cols[1]))
+        
+t3, c = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0003/afold/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t3.append(float(cols[0]))
+            c.append(float(cols[1]))
+            
+
+
+rmsd = {'Time (ns)': t3,'TCR3':c}
+df = pd.DataFrame(rmsd)
+df['Time (ns)']=df['Time (ns)'].div(1000)
+#df['Peptide SMA']= df.iloc[:,1].rolling(window=200).mean()
+#df['MHC SMA']= df.iloc[:,2].rolling(window=200).mean()
+ax = plt.gca()
+#df.plot(kind='line',x='Time (ns)', y='TCR1', color='lime', ax=ax)
+#df.plot(kind='line',x='Time (ns)', y='TCR2', color= 'magenta', ax=ax)
+df.plot(kind='line',x='Time (ns)', y='TCR3', color='blue', ax=ax)
+ax.set_ylabel('RMSD (nm)', fontsize=20)
+ax.set_xlabel('Time (ns)', fontsize=20)
+#ax.set_title('AlphaFold TCR Equilibration', fontsize=20)
+ax.set_ylim(0,1)
+plt.rc('xtick',labelsize=20)
+plt.rc('ytick',labelsize=20)
+#plt.axvline(x=8.64, color='black') #TCR1a
+#plt.axvline(x=61.18, color='black') #TCR2a
+plt.axvline(x=136.06, color='black') #TCR3a
+plt.savefig('/Users/zrollins/Documents/Documents/tcrai/RMSD_TCR3_afold.png', bbox_inches='tight', dpi=300)
+plt.show()
+
+
+t4, d = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/modeller/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t4.append(float(cols[0]))
+            d.append(float(cols[1]))
+            
+
+t5, e = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0002/modeller/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t5.append(float(cols[0]))
+            e.append(float(cols[1]))
+            
+
+t6, h = [], []
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0003/modeller/RMSD.xvg") as f:
+    #lines = (line for line in f if not line.startsiwith('#') if not line.startswith('$'))
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            t6.append(float(cols[0]))
+            h.append(float(cols[1]))
+            
+rmsd = {'Time (ns)': t6,'TCR3':h}
+df = pd.DataFrame(rmsd)
+df['Time (ns)']=df['Time (ns)'].div(1000)
+#df['Peptide SMA']= df.iloc[:,1].rolling(window=200).mean()
+#df['MHC SMA']= df.iloc[:,2].rolling(window=200).mean()
+ax = plt.gca()
+#df.plot(kind='line',x='Time (ns)', y='TCR1', color='lime', ax=ax)
+#df.plot(kind='line',x='Time (ns)', y='TCR2', color= 'magenta', ax=ax)
+df.plot(kind='line',x='Time (ns)', y='TCR3', color='blue', ax=ax)
+ax.set_ylabel('RMSD (nm)', fontsize=20)
+ax.set_xlabel('Time (ns)', fontsize=20)
+#ax.set_title('Modeller TCR Equilibration', fontsize=20)
+ax.set_ylim(0,1)
+#plt.axvline(x=249.38, color='black') #TCR1m
+#plt.axvline(x=127.34, color='black') #TCR2m
+plt.axvline(x=148.93, color='black') #TCR3m
+plt.rc('xtick',labelsize=20)
+plt.rc('ytick',labelsize=20)
+plt.savefig('/Users/zrollins/Documents/Documents/tcrai/RMSD_TCR3_modeller.png', bbox_inches='tight', dpi=300)
+plt.show()
+
+

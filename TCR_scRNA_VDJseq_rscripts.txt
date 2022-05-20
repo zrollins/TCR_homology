@@ -1,0 +1,271 @@
+:library(Seurat)
+library(dplyr)
+library(patchwork)
+library(ggplot2)
+library(cowplot)
+
+
+### Specify relevant directories
+home.dir <- "/home/georgelab/yard/user/matt/data5-20210706-crc-t-cell-data-for-vdj-analysis-zach-project/"
+tcr.dir <- paste0(home.dir, "vdj-tcr-seq/")
+img.dir <- paste0(home.dir, "img-output/")
+rds.dir <- paste0(home.dir, "rds-files/")
+csv.dir <- paste0(home.dir, "csv-output/")
+
+### Load individual 10X gene expression data into Seurat and create Seurat objects
+setwd(tcr.dir)
+may.data <- Read10X("/home/georgelab/yard/user/matt/data5-20210706-crc-t-cell-data-for-vdj-analysis-zach-project/scrna-seq_geneexpression/may_geneex1/outs/filtered_feature_bc_matrix")
+aug1.data <- Read10X("/home/georgelab/yard/user/matt/data5-20210706-crc-t-cell-data-for-vdj-analysis-zach-project/scrna-seq_geneexpression/aug_samp1_geneex1/outs/filtered_feature_bc_matrix")
+aug2.data <- Read10X("/home/georgelab/yard/user/matt/data5-20210706-crc-t-cell-data-for-vdj-analysis-zach-project/scrna-seq_geneexpression/aug_samp2_geneex1/outs/filtered_feature_bc_matrix")
+june16.data <- Read10X("/media/georgelab/NewVolume/data_repository/test1/june16_samp1_geneex1/outs/filtered_feature_bc_matrix")
+june23.1.data <- Read10X("/media/georgelab/NewVolume/data_repository/test1/june23_samp1_geneex1/outs/filtered_feature_bc_matrix")
+june23.2.1.data <- Read10X("/media/georgelab/NewVolume/data_repository/test1/june23_samp2-1_geneex1/outs/filtered_feature_bc_matrix")
+june23.2.2.data <- Read10X("/media/georgelab/NewVolume/data_repository/test1/june23_samp2-2_geneex1/outs/filtered_feature_bc_matrix")
+
+may.r <- CreateSeuratObject(counts=may.data, project="May data", min.cells=3, min.features=200) # standard Seurat settings
+aug1.r <- CreateSeuratObject(counts=aug1.data, project="Aug1 data", min.cells=3, min.features=200) # standard Seurat settings
+aug2.r <- CreateSeuratObject(counts=aug2.data, project="Aug2 data", min.cells=3, min.features=200) # standard Seurat settings
+june16.r <- CreateSeuratObject(counts=june16.data, project="June16 data", min.cells=3, min.features=200) # standard Seurat settings
+june23.1.r <- CreateSeuratObject(counts=june23.1.data, project="June23-1 data", min.cells=3, min.features=200) # standard Seurat settings
+june23.2.1.r <- CreateSeuratObject(counts=june23.2.1.data, project="June23-2-1 data", min.cells=3, min.features=200) # standard Seurat settings
+june23.2.2.r <- CreateSeuratObject(counts=june23.2.2.data, project="June23-2-2 data", min.cells=3, min.features=200) # standard Seurat settings
+
+
+### Import VDJ analysis and append to gene expression data as MetaData
+
+append_vdj <- function(tcr_location, seurat_obj) {
+tcr <- read.csv(paste0(tcr_location,"filtered_contig_annotations.csv"))
+# Subsets so only the first line of each barcode is kept, as each entry for given barcode will have same clonotype.
+tcr <- tcr[!duplicated(tcr$barcode), ]
+# Only keep the barcode and clonotype columns. We'll get additional clonotype info from the clonotype table.
+tcr <- tcr[,c("barcode", "raw_clonotype_id")]
+names(tcr)[names(tcr) == "raw_clonotype_id"] <- "clonotype_id"
+# Clonotype-centric info.
+clono <- read.csv(paste0(tcr_location,"clonotypes.csv"))
+# Slap the AA sequences onto our original table by clonotype_id.
+tcr <- merge(tcr, clono[, c("clonotype_id", "cdr3s_aa")])
+# Reorder so barcodes are first column and set them as rownames.
+tcr <- tcr[, c(2,1,3)]
+rownames(tcr) <- tcr[,1]
+tcr[,1] <- NULL
+# Add to the Seurat object's metadata.
+clono_seurat <- AddMetaData(object=seurat_obj, metadata=tcr)
+return(clono_seurat)
+}
+
+setwd(rds.dir)
+may.tcr.dir <- paste0(tcr.dir, "may-data1/outs/")
+may.r <- append_vdj(tcr_location=may.tcr.dir, seurat_obj=may.r)
+saveRDS(may.r, file="mayData_nofiltering.rds")
+aug1.tcr.dir <- paste0(tcr.dir, "aug-data1/outs/")
+aug1.r <- append_vdj(tcr_location=aug1.tcr.dir, seurat_obj=aug1.r)
+saveRDS(aug1.r, file="aug1Data_nofiltering.rds")
+aug2.tcr.dir <- paste0(tcr.dir, "aug-data2/outs/")
+aug2.r <- append_vdj(tcr_location=aug2.tcr.dir, seurat_obj=aug2.r)
+saveRDS(aug2.r, file="aug2Data_nofiltering.rds")
+june16.tcr.dir <- paste0(tcr.dir, "june16data1/outs/")
+june16.r <- append_vdj(tcr_location=june16.tcr.dir, seurat_obj=june16.r)
+saveRDS(june16.r, file="june16Data_nofiltering.rds")
+june231.tcr.dir <- paste0(tcr.dir, "june23-1data1/outs/")
+june23.1.r <- append_vdj(tcr_location=june231.tcr.dir, seurat_obj=june23.1.r)
+saveRDS(june23.1.r, file="june23-1Data_nofiltering.rds")
+june2321.tcr.dir <- paste0(tcr.dir, "june23-2-1-data1/outs/")
+june23.2.1.r <- append_vdj(tcr_location=june2321.tcr.dir, seurat_obj=june23.2.1.r)
+saveRDS(june23.2.1.r, file="june23-2-1Data_nofiltering.rds")
+june2322.tcr.dir <- paste0(tcr.dir, "june23-2-2-data1/outs/")
+june23.2.2.r <- append_vdj(tcr_location=june2322.tcr.dir, seurat_obj=june23.2.2.r)
+saveRDS(june23.2.2.r, file="june23-2-2Data_nofiltering.rds")
+
+
+### Merge the Seurat objects and begin filtering
+t.comb <- merge(may.r, y=c(aug1.r, aug2.r, june16.r, june23.1.r, june23.2.1.r, june23.2.2.r), add.cell.ids=c("May data", "Aug data1", "Aug data2", "June16 data1", "June23-1 data1", "June23-2-1 data1", "June23-2-2 data1"), project="T Cell combined data")
+t.comb[["percent.mt"]] <- PercentageFeatureSet(t.comb, pattern="^MT-")
+t.comb1 <- subset(t.comb, subset=percent.mt<10) # 10% specified in pre-print manuscript
+t.comb1 <- t.comb1[,is.na(t.comb1$clonotype_id)==FALSE] # eliminate all cells without any VDJ information
+setwd(rds.dir)
+saveRDS(t.comb1, file="Combined_t_cell_post-filter.rds")
+
+
+### Normalize data and proceed to unsupervised clustering
+setwd(home.dir)
+t.comb1 <- NormalizeData(t.comb1) # standard Seurat settings
+t.comb1 <- FindVariableFeatures(t.comb1, selection.method="vst", nfeatures=5000) # nfeatures specified in pre-print manuscript, all other choices standard Seurat settings
+t.comb1 <- ScaleData(t.comb1, features=rownames(t.comb1)) # standard Seurat settings
+t.comb1 <- RunPCA(t.comb1, features=VariableFeatures(t.comb1)) # standard Seurat settings
+t.comb1 <- FindNeighbors(t.comb1, dims=1:20) # pre-print manuscript states "For the clustering analysis, the function RunUMAP, FindClusters, and FindNeighbors in Seurat were used, in which "dims" or "resolution" were set at between 10 and 30 or between 0.1 and 0.5, respectively."  Therefore, choose to use dims from 1-20 (specified as between 1-10 and 1-30 in the paper).
+t.comb1 <- FindClusters(t.comb1, resolution=0.3) # pre-print manuscript states "For the clustering analysis, the function RunUMAP, FindClusters, and FindNeighbors in Seurat were used, in which "dims" or "resolution" were set at between 10 and 30 or between 0.1 and 0.5, respectively."  Therefore, choose to use resolution at 0.3 (specified as between 0.1 and 0.5 in the paper).
+t.comb1 <- RunUMAP(t.comb1, dims=1:20) # using same dims as in PCA
+t.comb1 <- RunTSNE(t.comb1, dims=1:20) # using same dims as in PCA
+setwd(rds.dir)
+saveRDS(t.comb1, file="Combined_t_cell_post-filter2.rds")
+
+
+### Create images for unsupervised clusters
+setwd(img.dir)
+p1 <- VlnPlot(t.comb1, features="nFeature_RNA", pt.size=0, group.by="orig.ident") + geom_boxplot(width=0.1, fill="white", outlier.size=0) + theme(axis.text.x=element_blank())
+png("Combined Data post-filtering_nFeature-RNA.png")
+plot(p1) # Plot the nFeature_RNA Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p2 <- VlnPlot(t.comb1, features="nCount_RNA", pt.size=0, group.by="orig.ident") + geom_boxplot(width=0.1, fill="white", outlier.size=0) + theme(axis.text.x=element_blank())
+png("Combined Data post-filtering_nCount-RNA.png")
+plot(p2) # Plot the nCount_RNA Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p3 <- VlnPlot(t.comb1, features="percent.mt", pt.size=0, group.by="orig.ident") + geom_boxplot(width=0.1, fill="white", outlier.size=0) + theme(axis.text.x=element_blank())
+png("Combined Data post-filtering_percent-mt.png")
+plot(p3) # Plot the percent.mt Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+append_vdj <- function(tcr_location, seurat_obj) {
+tcr <- read.csv(paste0(tcr_location,"filtered_contig_annotations.csv"))
+# Subsets so only the first line of each barcode is kept, as each entry for given barcode will have same clonotype.
+tcr <- tcr[!duplicated(tcr$barcode), ]
+# Only keep the barcode and clonotype columns. We'll get additional clonotype info from the clonotype table.
+tcr <- tcr[,c("barcode", "raw_clonotype_id")]
+names(tcr)[names(tcr) == "raw_clonotype_id"] <- "clonotype_id"
+# Clonotype-centric info.
+clono <- read.csv(paste0(tcr_location,"clonotypes.csv"))
+# Slap the AA sequences onto our original table by clonotype_id.
+tcr <- merge(tcr, clono[, c("clonotype_id", "cdr3s_aa")])
+# Reorder so barcodes are first column and set them as rownames.
+tcr <- tcr[, c(2,1,3)]
+rownames(tcr) <- tcr[,1]
+tcr[,1] <- NULL
+# Add to the Seurat object's metadata.
+clono_seurat <- AddMetaData(object=seurat_obj, metadata=tcr)
+return(clono_seurat)
+}
+
+umap.minmax <- function(object) {
+umapembed <- as.data.frame(object[["umap"]]@cell.embeddings)  
+um1 <- c(ceiling(max(umapembed$UMAP_1)),floor(min(umapembed$UMAP_1)))
+um2 <- c(ceiling(max(umapembed$UMAP_2)),floor(min(umapembed$UMAP_2)))
+ummm <- cbind(um1,um2)
+rownames(ummm) <- c("Max","Min")
+colnames(ummm) <- c("UMAP_1","UMAP_2")
+ummm <- as.data.frame(ummm)
+return(ummm)
+}
+
+p4 <- DimPlot(t.comb1, reduction="umap") + xlab("UMAP 1") + ylab("UMAP 2") + xlim(umap.minmax(t.comb1)[2,1], umap.minmax(t.comb1)[1,1])  + ylim(umap.minmax(t.comb1)[2,2], umap.minmax(t.comb1)[1,2]) + theme(axis.ticks.x=element_blank(), axis.text.x=element_blank(), axis.ticks.y=element_blank(), axis.text.y=element_blank()) + theme(axis.title = element_text(size=28), legend.text=element_text(size=16)) + ggtitle("Overall UMAP Plot") + theme(plot.title=element_text(hjust=0.5, size=28)) + theme(legend.position="bottom")
+png("Overall UMAP plot_group by seuratcluster.png")
+plot(p4) # Plot the overall UMAP plot (grouped by cluster membership) for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p5 <- FeaturePlot(t.comb1, reduction="umap", features="CD8A") + xlab("UMAP 1") + ylab("UMAP 2") + theme(axis.ticks.x=element_blank(), axis.text.x=element_blank(), axis.ticks.y=element_blank(), axis.text.y=element_blank()) + theme(axis.title = element_text(size=28), legend.text=element_text(size=16)) + ggtitle("UMAP Plot - CD8A Expression") + theme(plot.title=element_text(hjust=0.5, size=28)) + theme(legend.position="bottom")
+png("UMAP-CD8A.png")
+plot(p5) # Plot the overall UMAP plot (grouped by cluster membership), with emphasis on CD8A expression, for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p5a <- FeaturePlot(t.comb1, reduction="umap", features="CD3D") + xlab("UMAP 1") + ylab("UMAP 2") + theme(axis.ticks.x=element_blank(), axis.text.x=element_blank(), axis.ticks.y=element_blank(), axis.text.y=element_blank()) + theme(axis.title = element_text(size=28), legend.text=element_text(size=16)) + ggtitle("UMAP Plot - CD3D Expression") + theme(plot.title=element_text(hjust=0.5, size=28)) + theme(legend.position="bottom")
+png("UMAP-CD3D.png")
+plot(p5a) # Plot the overall UMAP plot (grouped by cluster membership), with emphasis on CD3D expression, for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+
+p6 <- FeaturePlot(t.comb1, reduction="umap", features="CD4") + xlab("UMAP 1") + ylab("UMAP 2") + theme(axis.ticks.x=element_blank(), axis.text.x=element_blank(), axis.ticks.y=element_blank(), axis.text.y=element_blank()) + theme(axis.title = element_text(size=28), legend.text=element_text(size=16)) + ggtitle("UMAP Plot - CD4 Expression") + theme(plot.title=element_text(hjust=0.5, size=28)) + theme(legend.position="bottom")
+png("UMAP-CD4.png")
+plot(p6) # Plot the overall UMAP plot (grouped by cluster membership), with emphasis on CD4 expression, for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p7 <- VlnPlot(t.comb1, features="CD3D", group.by='seurat_clusters', pt.size=0) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd3d") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="tcomb1-cd3d.png",width=720,height=720)
+plot(p7) # Plot the CD3D gene expression Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p8 <- VlnPlot(t.comb1, features="CD4", group.by='seurat_clusters', pt.size=0) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd4") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="tcomb1-cd4.png",width=720,height=720)
+plot(p8) # Plot the CD4 gene expression Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+p9 <- VlnPlot(t.comb1, features="CD8A", group.by='seurat_clusters', pt.size=0) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd8a") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="tcomb1-cd8a.png",width=720,height=720)
+plot(p9) # Plot the CD8A gene expression Violin Plot for the post-filtered overall combined Seurat object (prior to CD8 filtering)
+dev.off()
+
+
+### Subset clusters #2,6,7,9,11 for CD8 object and generate basic relevant images
+setwd(home.dir)
+
+ggplotColors <- function(n = 6, h = c(0, 360) + 15){
+  if ((diff(h) %% 360) < 1) h[2] <- h[2] - 360/n
+  hcl(h = (seq(h[1], h[2], length = n)), c = 100, l = 65)
+}
+
+Idents(t.comb1) <- t.comb1$seurat_clusters
+cd8.tr <- subset(t.comb1, idents=c("2","6","7","9","11")) # choose these clusters because they appear to contain all CD3+CD4-CD8+ cells
+
+col2use <- ggplotColors(length(table(Idents(t.comb1))))
+cd8.col <- c(col2use[3], col2use[7], col2use[8], col2use[10], col2use[12])
+
+setwd(img.dir)
+p10 <- VlnPlot(cd8.tr, features="CD3D", group.by='seurat_clusters', pt.size=0, cols=cd8.col) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd3d") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="cd8only-cd3d.png",width=720,height=720)
+plot(p10) # Plot the CD3D gene expression Violin Plot for the CD8+ combined Seurat object
+dev.off()
+
+p11 <- VlnPlot(cd8.tr, features="CD4", group.by='seurat_clusters', pt.size=0, cols=cd8.col) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd4") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="cd8only-cd4.png",width=720,height=720)
+plot(p11) # Plot the CD4 gene expression Violin Plot for the CD8+ combined Seurat object
+dev.off()
+
+p12 <- VlnPlot(cd8.tr, features="CD8A", group.by='seurat_clusters', pt.size=0, cols=cd8.col) + geom_boxplot(width=0.1,fill="white",outlier.size=0) + theme(legend.position='none') + theme(axis.text.x = element_text(angle=90,vjust=0.5,hjust=1)) + ylab("Expression") + theme(axis.title.y = element_text(size=28), axis.text.y = element_text(size=20), axis.title.x = element_blank(),axis.text.x = element_text(size=20, angle=0, hjust=0.5)) + ggtitle("Cd8a") + theme(plot.title=element_text(size=30, face="italic"))
+png(filename="cd8only-cd8a.png",width=720,height=720)
+plot(p12) # Plot the CD8A gene expression Violin Plot for the CD8+ combined Seurat object
+dev.off()
+
+p13 <- DimPlot(cd8.tr, reduction="umap", group.by="seurat_clusters", cols=cd8.col) + xlim(umap.minmax(t.comb1)[2,1], umap.minmax(t.comb1)[1,1])  + ylim(umap.minmax(t.comb1)[2,2], umap.minmax(t.comb1)[1,2]) + xlab("UMAP 1") + ylab("UMAP 2") + theme(axis.ticks.x=element_blank(), axis.text.x=element_blank(), axis.ticks.y=element_blank(), axis.text.y=element_blank()) + theme(axis.title = element_text(size=28), legend.text=element_text(size=16)) + ggtitle("CD8+ UMAP Plot") + theme(plot.title=element_text(hjust=0.5, size=28)) + theme(legend.position="bottom")
+png("CD8only_group by seuratcluster.png")
+plot(p13) # Plot the overall UMAP Plot for the CD8+ combined Seurat object
+dev.off()
+
+
+### Write CSV file with all cells from CD8 object
+cd8.tr.df <- as.data.frame(cd8.tr[[]])
+setwd(csv.dir)
+write.csv(cd8.tr.df, "CD8_only_csv.csv")
+setwd(rds.dir)
+saveRDS(cd8.tr, "CD8_only_data.rds")
+
+
+### Determine unique clonotypes and determine frequency of occurrence
+num.uniq <- length(unique(cd8.tr.df$cdr3s_aa)) # give total number of unique clonotypes for entire Seurat object
+uniq.tcr <- table(unlist(cd8.tr.df$cdr3s_aa))
+uniq.tcr <- uniq.tcr[order(uniq.tcr, decreasing=TRUE)]
+uniq.tcr1 <- as.data.frame(uniq.tcr)
+rel.freq <- vector(length=length(uniq.tcr1$Freq))
+clon.rank <- rownames(uniq.tcr1)
+
+for (i in 1:length(rel.freq)) {
+rel.freq[i] <- uniq.tcr1$Freq[i]/num.uniq
+}
+
+uniq.tcr1 <- cbind(uniq.tcr1, rel.freq, clon.rank)
+colnames(uniq.tcr1) <- c("CDR3_AAs","Frequency","Relative.Frequency","Clonotype.Rank")
+setwd(csv.dir)
+write.csv(uniq.tcr1, "TCR Frequency.csv")
+uniq.tcr15 <- uniq.tcr1[1:15,]
+
+clon.rank <- rownames(uniq.tcr15)
+uniq.tcr15$Clonotype.Rank <- factor(uniq.tcr15$Clonotype.Rank, levels=clon.rank)
+
+setwd(img.dir)
+p14 <- ggplot(uniq.tcr15, aes(x=Clonotype.Rank, y=Frequency, fill=Relative.Frequency)) + geom_bar(stat="identity", position="dodge") + theme_minimal() + ggtitle("VDJ Analysis - Clonotype Frequency") + ylab("Frequency") + xlab("Clonotype Rank Order") + theme(plot.title=element_text(hjust=0.5,size=56), axis.title.y=element_text(size=40), axis.title.x=element_text(size=40), axis.text.x=element_text(size=24,color="black"), axis.text.y=element_text(size=24,color="black"), plot.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), axis.line.x=element_line(color="black",size=0.5), axis.line.y=element_line(color="black",size=0.5)) + scale_y_continuous(expand=c(0,0), limits=c(0, 240)) + theme(legend.position="none", legend.box="horizontal") + geom_text(aes(label=Frequency), color="black", position=position_dodge(0.9), vjust=-0.2,size=7) + theme(axis.ticks.y=element_line("black"), axis.ticks.length=unit(8,"pt"))
+png("Clonotype Frequency plot.png", height=1200, width=1200, units="px")
+plot(p14)
+dev.off()
+
+p15 <- ggplot(uniq.tcr15, aes(x=Clonotype.Rank, y=Relative.Frequency, fill=Frequency)) + geom_bar(stat="identity", position="dodge") + theme_minimal() + ggtitle("VDJ Analysis - Clonotype Rel. Frequency") + ylab("Relative Frequency") + xlab("Clonotype Rank Order") + theme(plot.title=element_text(hjust=0.5,size=56), axis.title.y=element_text(size=40), axis.title.x=element_text(size=40), axis.text.x=element_text(size=24,color="black"), axis.text.y=element_text(size=24,color="black"), plot.background=element_blank(), panel.grid.major=element_blank(), panel.grid.minor=element_blank(), axis.line.x=element_line(color="black",size=0.5), axis.line.y=element_line(color="black",size=0.5)) + scale_y_continuous(expand=c(0,0), limits=c(0, 0.06)) + theme(legend.position="none", legend.box="horizontal") + geom_text(aes(label=round(Relative.Frequency, digits=4)), color="black", position=position_dodge(0.9), vjust=-0.2,size=7) + theme(axis.ticks.y=element_line("black"), axis.ticks.length=unit(8,"pt"))
+png("Clonotype relative Frequency plot.png", height=1200, width=1200, units="px")
+plot(p15)
+dev.off()
+
+
+### Get session information
+setwd(csv.dir)
+sink("Session Info.txt")
+sessionInfo()
+sink()
+sessionInfo()
+

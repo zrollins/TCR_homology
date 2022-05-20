@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 21 15:34:13 2022
+
+@author: zrollins
+"""
+# RMSF MART1
+import pandas as pd
+import matplotlib.patches as mpatches
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams["font.family"] = "Arial"
+plt.rc('xtick',labelsize=15)
+plt.rc('ytick',labelsize=15)
+
+# 100 ns MART1
+
+atoms = []
+CDR3a_100_L1 = []
+CDR3b_100_L1 = []
+pep_100_L1= []
+CDR3a_100_M1 = []
+CDR3b_100_M1 = []
+pep_100_M1= []    
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/modeller/rmsf_CDR3a.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            CDR3a_100_L1.append(float(cols[1]))
+            
+            
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/modeller/rmsf_CDR3b.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            CDR3b_100_L1.append(float(cols[1]))
+            
+            
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/modeller/rmsf_CEA.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            pep_100_L1.append(float(cols[1]))
+            
+
+            
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/afold/rmsf_CDR3a.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            CDR3a_100_M1.append(float(cols[1]))
+
+            
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/afold/rmsf_CDR3b.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            CDR3b_100_M1.append(float(cols[1]))
+            
+            
+with open("/Users/zrollins/Documents/Documents/tcrai/tcr0001/afold/rmsf_CEA.xvg") as f:
+    for line in f:
+        if line.startswith('#'):
+            continue
+        if line.startswith('@'):
+            continue
+        cols = line.split()
+
+        if len(cols) == 2:
+            atoms.append(float(cols[0]))
+            pep_100_M1.append(float(cols[1]))
+            
+
+            
+            
+#Plot
+
+
+cdr3a_L1 = pd.Series(CDR3a_100_L1)
+cdr3a_L1_mu = cdr3a_L1.mean()
+cdr3a_L1_sem = cdr3a_L1.sem()
+
+cdr3b_L1 = pd.Series(CDR3b_100_L1)
+cdr3b_L1_mu = cdr3b_L1 .mean()
+cdr3b_L1_sem = cdr3b_L1 .sem()
+
+pep_L1 = pd.Series(pep_100_L1)
+pep_L1_mu = pep_L1.mean()
+pep_L1_sem = pep_L1.sem()
+
+cdr3a_M1 = pd.Series(CDR3a_100_M1)
+cdr3a_M1_mu = cdr3a_M1.mean()
+cdr3a_M1_sem = cdr3a_M1.sem()
+
+cdr3b_M1 = pd.Series(CDR3b_100_M1)
+cdr3b_M1_mu = cdr3b_M1.mean()
+cdr3b_M1_sem = cdr3b_M1.sem()
+
+pep_M1 = pd.Series(pep_100_M1)
+pep_M1_mu = pep_M1.mean()
+pep_M1_sem = pep_M1.sem()
+
+
+L1_mu = [cdr3a_L1_mu,cdr3b_L1_mu,pep_L1_mu]
+L1_sem = [cdr3a_L1_sem,cdr3b_L1_sem,pep_L1_sem]
+M1_mu = [cdr3a_M1_mu,cdr3b_M1_mu,pep_M1_mu]
+M1_sem = [cdr3a_M1_sem,cdr3b_M1_sem,pep_M1_sem]
+
+
+                             
+
+labels = ['CDR3α','CDR3β','CEA']
+colors_L1=['black','black','black']
+colors_M1=['gray','gray','gray']
+
+patterns=['-','x','o']
+
+
+x = np.arange(len(labels))
+width=0.3
+fig, ax = plt.subplots(figsize=(20,10))
+rects1 = ax.bar(x-0.5*width,L1_mu,yerr=L1_sem,color=colors_L1,width=width,label='Modeller')
+rects2 = ax.bar(x+0.5*width,M1_mu,yerr=M1_sem,width=width,color=colors_M1,label='ColabFold')
+plt.legend(fontsize=20)
+plt.yticks (fontsize=30)
+plt.xticks(range(0,len(labels)), labels=labels,fontsize=30)
+#plt.xlabel('Interfacial Region',fontsize=20)
+#plt.ylabel('RMSF (nm)',fontsize=20)
+ax.set_ylim(0,0.15)
+ax.legend(fontsize=20)
+plt.title('TCR1',fontsize=25)
+plt.savefig('/Users/zrollins/Documents/Documents/tcrai/tcr1_rmsf.png', bbox_inches='tight',dpi=300)
+#plt.savefig('/Users/zrollins/Documents/DMF5_MART1/rmsf_interface.png')
+plt.show()
+
