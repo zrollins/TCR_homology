@@ -1,4 +1,4 @@
-“Automated homology modeling of TCRs to a target pMHC based on patient-specific sequences” -Manuscript in preparation
+“Automated protein-protein structure prediction of the T cell receptor-peptide major histocompatibility complex” - Manuscript in Review Submitted to Biorxiv
 
 #TCR single cell RNA sequencing and V(D)J analysis
 TCR_scRNA_VDJseq_rscripts.txt
