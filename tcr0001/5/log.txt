@@ -1,0 +1,75 @@
+2022-02-15 20:14:52,742 Running colabfold 1.2.0 (96fe2446f454eba38ea34ca45d97dc3f393e24ed)
+2022-02-15 20:14:52,751 Found 7 citations for tools or databases
+2022-02-15 20:15:01,418 Query 1/1: TCR0001 (length 825)
+2022-02-15 20:15:02,188 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:15:13,014 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:15:23,749 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:15:29,487 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:15:38,220 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:15:44,953 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:15:55,692 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:16:01,422 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:12,159 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:22,895 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:33,633 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:16:40,367 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:16:49,102 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:16:55,836 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:17:05,572 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:17:13,307 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:17:24,042 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:17:31,778 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:17:42,515 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:17:53,245 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:17:59,002 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:18:05,736 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:18:14,472 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:18:25,208 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:18:32,941 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:18:41,704 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:18:48,439 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:18:58,175 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:19:07,910 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:19:18,647 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:19:25,382 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:19:34,117 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:19:44,856 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:19:54,758 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:20:03,552 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:20:11,698 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:20:22,436 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:20:31,172 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:20:38,905 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:20:46,642 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:20:56,391 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:21:38,127 Sequence 0 found templates: [b'1mhc_D' b'3kxf_I' b'1k5n_A' b'6v2o_A' b'4u1m_A' b'3fon_C' b'4cvx_A'
+ b'1lk2_A' b'6r2u_F' b'1zag_B' b'6eny_F' b'1s7q_A' b'1t7v_A' b'1s7w_G'
+ b'4g43_D' b'3p73_A' b'6at5_A' b'4cvz_A' b'4d0d_A' b'1k5n_A']
+2022-02-15 20:21:46,402 Sequence 1 found templates: [b'2p24_A' b'5knm_B' b'5iue_H' b'4ono_A' b'4fqx_C' b'1uvq_A' b'4i0p_D'
+ b'4i0p_H' b'2bc4_C' b'2p24_B' b'4i0p_A' b'4p5m_B' b'1r5v_C' b'1d9k_G'
+ b'4p5m_E' b'3lqz_A' b'1fng_D' b'6blq_A' b'6mff_C' b'4ono_A']
+2022-02-15 20:21:46,402 Sequence 2 found no templates
+2022-02-15 20:22:00,187 Sequence 3 found templates: [b'2nx5_D' b'6puc_G' b'2ypl_D' b'1g6r_C' b'1mwa_A' b'1tcr_A' b'6bnl_G'
+ b'6frc_A' b'6fun_A' b'2bnq_D' b'5wkh_I' b'2bnu_A' b'5tez_I' b'1oga_D'
+ b'6fr4_A' b'6cph_D' b'6eh4_D' b'1lp9_E' b'2j8u_L' b'5yxu_A']
+2022-02-15 20:22:13,860 Sequence 4 found templates: [b'6p64_E' b'6avg_E' b'4dzb_B' b'4jfh_E' b'6mng_B' b'4ww1_B' b'6fr4_B'
+ b'4pj8_D' b'6puc_E' b'3t0e_D' b'6eh4_E' b'1nfd_B' b'5xov_H' b'3q5y_C'
+ b'1oga_E' b'2wbj_D' b'2wbj_H' b'4ndm_A' b'6jxr_n' b'1mco_H']
+2022-02-15 20:22:14,756 Sleeping for 9s. Reason: PENDING
+2022-02-15 20:22:24,494 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:22:32,230 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:22:41,966 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:22:51,705 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:22:57,434 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:23:11,011 Running model_3
+2022-02-15 20:39:31,811 model_3 took 980.8s (5 recycles) with pLDDT 90.1 and ptmscore 0.56
+2022-02-15 20:39:37,551 Running model_4
+2022-02-15 20:53:54,573 model_4 took 857.0s (5 recycles) with pLDDT 91.6 and ptmscore 0.556
+2022-02-15 20:53:59,887 Running model_5
+2022-02-15 21:08:16,685 model_5 took 856.8s (5 recycles) with pLDDT 92.8 and ptmscore 0.583
+2022-02-15 21:08:21,225 Running model_1
+2022-02-15 21:24:25,899 model_1 took 964.7s (5 recycles) with pLDDT 92 and ptmscore 0.541
+2022-02-15 21:24:30,336 Running model_2
+2022-02-15 21:38:46,337 model_2 took 856.0s (5 recycles) with pLDDT 90.3 and ptmscore 0.547
+2022-02-15 21:38:50,903 reranking models by multimer
+2022-02-15 21:38:56,767 Done

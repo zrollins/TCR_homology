@@ -1,0 +1,220 @@
+Currently Loaded Modulefiles:
+ 1) slurm/17.11.6   2) openmpi/4.0.1(default)  
+Module colabfold loaded 
++ date
+Tue Feb 15 20:13:36 PST 2022
++ pwd
+/home/zrollins/tcrfold/tcr0001
++ egrep SLURM
++ printenv
+SLURM_MEM_PER_CPU=2000
+SLURM_NODEID=0
+SLURM_TASK_PID=3905
+SLURM_PRIO_PROCESS=0
+SLURM_SUBMIT_DIR=/home/zrollins/tcrfold/tcr0001
+SLURM_CHECKPOINT_IMAGE_DIR=/var/slurm/checkpoint
+SLURM_PROCID=0
+SLURM_JOB_GID=1497459
+SLURMD_NODENAME=g8-7
+SLURM_TASKS_PER_NODE=8
+SLURM_NNODES=1
+SLURM_NTASKS_PER_CORE=1
+SLURM_NTASKS_PER_NODE=8
+SLURM_JOB_NODELIST=g8-7
+SLURM_CLUSTER_NAME=hpc1
+SLURM_NODELIST=g8-7
+SLURM_NTASKS=8
+SLURM_JOB_CPUS_PER_NODE=8
+SLURM_TOPOLOGY_ADDR=g8-7
+SLURM_WORKING_CLUSTER=hpc1:10.21.7.8:6817:8192
+SLURM_JOB_NAME=alphafold
+SLURM_JOB_GPUS=0,1
+SLURM_JOBID=5378216
+SLURM_NODE_ALIASES=(null)
+SLURM_JOB_QOS=normal
+SLURM_TOPOLOGY_ADDR_PATTERN=node
+SLURM_CPUS_ON_NODE=8
+SLURM_JOB_NUM_NODES=1
+SLURM_JOB_UID=1497459
+SLURM_JOB_PARTITION=gpu
+SLURM_JOB_USER=zrollins
+SLURM_NPROCS=8
+SLURM_SUBMIT_HOST=hpc1
+SLURM_JOB_ACCOUNT=fallergrp
+SLURM_HOME=/share/apps/slurm-17.11.6/gcc7
+SLURM_GTIDS=0
+SLURM_JOB_ID=5378216
+SLURM_LOCALID=0
++ pip3 install torch
+Collecting torch
+  Using cached https://files.pythonhosted.org/packages/a4/54/81b1c3c574a1ffde54b0c82ed2a37d81395709cdd5f50e59970aeed5d95e/torch-1.10.2-cp36-cp36m-manylinux1_x86_64.whl
+Collecting typing-extensions (from torch)
+  Using cached https://files.pythonhosted.org/packages/45/6b/44f7f8f1e110027cf88956b59f2fad776cca7e1704396d043f89effd3a0e/typing_extensions-4.1.1-py3-none-any.whl
+Collecting dataclasses; python_version < "3.7" (from torch)
+  Using cached https://files.pythonhosted.org/packages/fe/ca/75fac5856ab5cfa51bbbcefa250182e50441074fdc3f803f6e76451fab43/dataclasses-0.8-py3-none-any.whl
+Installing collected packages: typing-extensions, dataclasses, torch
+Successfully installed dataclasses-0.8 torch-1.10.2 typing-extensions-4.1.1
++ pip3 install --upgrade 'jax[cuda]' -f https://storage.googleapis.com/jax-releases/jax_releases.html
+Collecting jax[cuda]
+  Using cached https://storage.googleapis.com/jax-releases/jax/jax-0.3.0.tar.gz
+jax requires Python '>=3.7' but the running Python is 3.6.9
++ ls -latr /share/apps/src/colab/colabfold_batch/colabfold/params/params_model_1.npz
+-rw-rw-r-- 1 oschreib oschreib 373069562 Jul 19  2021 /share/apps/src/colab/colabfold_batch/colabfold/params/params_model_1.npz
++ colabfold_batch --templates --num-recycle 3 --model-type AlphaFold2-multimer TCR0001.csv 3
+WARNING: You are welcome to use the default MSA server, however keep in mind that it's a limited shared resource only capable of processing a few thousand MSAs per day. Please submit jobs only from a single IP address. We reserve the right to limit access to the server case-by-case when usage exceeds fair use.
+
+If you require more MSAs, please host your own API and pass it to `--host-url`
+2022-02-15 20:14:47,486 Running colabfold 1.2.0 (96fe2446f454eba38ea34ca45d97dc3f393e24ed)
+2022-02-15 20:14:47,493 Found 7 citations for tools or databases
+2022-02-15 20:14:56,292 Query 1/1: TCR0001 (length 825)
+  0%|          | 0/750 [elapsed: 00:00 remaining: ?]SUBMIT:   0%|          | 0/750 [elapsed: 00:00 remaining: ?]PENDING:   0%|          | 0/750 [elapsed: 00:00 remaining: ?]                                                             PENDING:   0%|          | 0/750 [elapsed: 00:00 remaining: ?]RUNNING:   0%|          | 0/750 [elapsed: 00:11 remaining: ?]RUNNING:   1%|▏         | 10/750 [elapsed: 00:11 remaining: 14:18]                                                                  RUNNING:   1%|▏         | 10/750 [elapsed: 00:11 remaining: 14:18]RUNNING:   1%|▏         | 10/750 [elapsed: 00:19 remaining: 14:18]RUNNING:   2%|▏         | 17/750 [elapsed: 00:19 remaining: 13:50]                                                                  RUNNING:   2%|▏         | 17/750 [elapsed: 00:19 remaining: 13:50]RUNNING:   2%|▏         | 17/750 [elapsed: 00:30 remaining: 13:50]RUNNING:   4%|▎         | 27/750 [elapsed: 00:30 remaining: 13:17]                                                                  RUNNING:   4%|▎         | 27/750 [elapsed: 00:30 remaining: 13:17]RUNNING:   4%|▎         | 27/750 [elapsed: 00:39 remaining: 13:17]RUNNING:   5%|▍         | 36/750 [elapsed: 00:39 remaining: 13:01]                                                                  RUNNING:   5%|▍         | 36/750 [elapsed: 00:39 remaining: 13:01]RUNNING:   5%|▍         | 36/750 [elapsed: 00:49 remaining: 13:01]RUNNING:   6%|▌         | 45/750 [elapsed: 00:49 remaining: 12:48]                                                                  RUNNING:   6%|▌         | 45/750 [elapsed: 00:49 remaining: 12:48]RUNNING:   6%|▌         | 45/750 [elapsed: 01:00 remaining: 12:48]RUNNING:   7%|▋         | 55/750 [elapsed: 01:00 remaining: 12:33]                                                                  RUNNING:   7%|▋         | 55/750 [elapsed: 01:00 remaining: 12:33]RUNNING:   7%|▋         | 55/750 [elapsed: 01:11 remaining: 12:33]RUNNING:   9%|▊         | 65/750 [elapsed: 01:11 remaining: 12:20]                                                                  RUNNING:   9%|▊         | 65/750 [elapsed: 01:11 remaining: 12:20]RUNNING:   9%|▊         | 65/750 [elapsed: 01:16 remaining: 12:20]RUNNING:   9%|▉         | 70/750 [elapsed: 01:16 remaining: 12:23]                                                                  RUNNING:   9%|▉         | 70/750 [elapsed: 01:16 remaining: 12:23]RUNNING:   9%|▉         | 70/750 [elapsed: 01:22 remaining: 12:23]RUNNING:  10%|█         | 75/750 [elapsed: 01:22 remaining: 12:26]                                                                  RUNNING:  10%|█         | 75/750 [elapsed: 01:22 remaining: 12:26]RUNNING:  10%|█         | 75/750 [elapsed: 01:33 remaining: 12:26]RUNNING:  11%|█▏        | 85/750 [elapsed: 01:33 remaining: 12:06]                                                                  RUNNING:  11%|█▏        | 85/750 [elapsed: 01:33 remaining: 12:06]RUNNING:  11%|█▏        | 85/750 [elapsed: 01:43 remaining: 12:06]RUNNING:  13%|█▎        | 95/750 [elapsed: 01:43 remaining: 11:51]                                                                  RUNNING:  13%|█▎        | 95/750 [elapsed: 01:43 remaining: 11:51]RUNNING:  13%|█▎        | 95/750 [elapsed: 01:54 remaining: 11:51]RUNNING:  14%|█▍        | 105/750 [elapsed: 01:54 remaining: 11:37]                                                                   RUNNING:  14%|█▍        | 105/750 [elapsed: 01:54 remaining: 11:37]RUNNING:  14%|█▍        | 105/750 [elapsed: 02:04 remaining: 11:37]RUNNING:  15%|█▌        | 114/750 [elapsed: 02:04 remaining: 11:27]                                                                   RUNNING:  15%|█▌        | 114/750 [elapsed: 02:04 remaining: 11:27]RUNNING:  15%|█▌        | 114/750 [elapsed: 02:11 remaining: 11:27]RUNNING:  16%|█▌        | 120/750 [elapsed: 02:11 remaining: 11:27]                                                                   RUNNING:  16%|█▌        | 120/750 [elapsed: 02:11 remaining: 11:27]RUNNING:  16%|█▌        | 120/750 [elapsed: 02:19 remaining: 11:27]RUNNING:  17%|█▋        | 128/750 [elapsed: 02:19 remaining: 11:18]                                                                   RUNNING:  17%|█▋        | 128/750 [elapsed: 02:19 remaining: 11:18]RUNNING:  17%|█▋        | 128/750 [elapsed: 02:29 remaining: 11:18]RUNNING:  18%|█▊        | 137/750 [elapsed: 02:29 remaining: 11:06]                                                                   RUNNING:  18%|█▊        | 137/750 [elapsed: 02:29 remaining: 11:06]RUNNING:  18%|█▊        | 137/750 [elapsed: 02:39 remaining: 11:06]RUNNING:  19%|█▉        | 146/750 [elapsed: 02:39 remaining: 10:56]                                                                   RUNNING:  19%|█▉        | 146/750 [elapsed: 02:39 remaining: 10:56]RUNNING:  19%|█▉        | 146/750 [elapsed: 02:47 remaining: 10:56]RUNNING:  20%|██        | 153/750 [elapsed: 02:47 remaining: 10:51]                                                                   RUNNING:  20%|██        | 153/750 [elapsed: 02:47 remaining: 10:51]RUNNING:  20%|██        | 153/750 [elapsed: 02:56 remaining: 10:51]RUNNING:  22%|██▏       | 162/750 [elapsed: 02:56 remaining: 10:39]                                                                   RUNNING:  22%|██▏       | 162/750 [elapsed: 02:56 remaining: 10:39]RUNNING:  22%|██▏       | 162/750 [elapsed: 03:07 remaining: 10:39]RUNNING:  23%|██▎       | 172/750 [elapsed: 03:07 remaining: 10:25]                                                                   RUNNING:  23%|██▎       | 172/750 [elapsed: 03:07 remaining: 10:25]RUNNING:  23%|██▎       | 172/750 [elapsed: 03:18 remaining: 10:25]RUNNING:  24%|██▍       | 182/750 [elapsed: 03:18 remaining: 10:13]                                                                   RUNNING:  24%|██▍       | 182/750 [elapsed: 03:18 remaining: 10:13]RUNNING:  24%|██▍       | 182/750 [elapsed: 03:29 remaining: 10:13]RUNNING:  26%|██▌       | 192/750 [elapsed: 03:29 remaining: 10:01]                                                                   RUNNING:  26%|██▌       | 192/750 [elapsed: 03:29 remaining: 10:01]RUNNING:  26%|██▌       | 192/750 [elapsed: 03:39 remaining: 10:01]RUNNING:  27%|██▋       | 202/750 [elapsed: 03:39 remaining: 09:49]                                                                   RUNNING:  27%|██▋       | 202/750 [elapsed: 03:39 remaining: 09:49]RUNNING:  27%|██▋       | 202/750 [elapsed: 03:47 remaining: 09:49]RUNNING:  28%|██▊       | 209/750 [elapsed: 03:47 remaining: 09:46]                                                                   RUNNING:  28%|██▊       | 209/750 [elapsed: 03:47 remaining: 09:46]RUNNING:  28%|██▊       | 209/750 [elapsed: 03:54 remaining: 09:46]RUNNING:  29%|██▊       | 215/750 [elapsed: 03:54 remaining: 09:44]                                                                   RUNNING:  29%|██▊       | 215/750 [elapsed: 03:54 remaining: 09:44]RUNNING:  29%|██▊       | 215/750 [elapsed: 04:00 remaining: 09:44]RUNNING:  29%|██▉       | 221/750 [elapsed: 04:00 remaining: 09:41]                                                                   RUNNING:  29%|██▉       | 221/750 [elapsed: 04:00 remaining: 09:41]RUNNING:  29%|██▉       | 221/750 [elapsed: 04:09 remaining: 09:41]RUNNING:  31%|███       | 229/750 [elapsed: 04:09 remaining: 09:31]                                                                   RUNNING:  31%|███       | 229/750 [elapsed: 04:09 remaining: 09:31]RUNNING:  31%|███       | 229/750 [elapsed: 04:20 remaining: 09:31]RUNNING:  32%|███▏      | 239/750 [elapsed: 04:20 remaining: 09:16]                                                                   RUNNING:  32%|███▏      | 239/750 [elapsed: 04:20 remaining: 09:16]RUNNING:  32%|███▏      | 239/750 [elapsed: 04:28 remaining: 09:16]RUNNING:  33%|███▎      | 246/750 [elapsed: 04:28 remaining: 09:10]                                                                   RUNNING:  33%|███▎      | 246/750 [elapsed: 04:28 remaining: 09:10]RUNNING:  33%|███▎      | 246/750 [elapsed: 04:35 remaining: 09:10]RUNNING:  34%|███▎      | 253/750 [elapsed: 04:35 remaining: 09:04]                                                                   RUNNING:  34%|███▎      | 253/750 [elapsed: 04:35 remaining: 09:04]RUNNING:  34%|███▎      | 253/750 [elapsed: 04:41 remaining: 09:04]RUNNING:  34%|███▍      | 258/750 [elapsed: 04:41 remaining: 09:04]                                                                   RUNNING:  34%|███▍      | 258/750 [elapsed: 04:41 remaining: 09:04]RUNNING:  34%|███▍      | 258/750 [elapsed: 04:49 remaining: 09:04]RUNNING:  35%|███▌      | 265/750 [elapsed: 04:49 remaining: 08:56]                                                                   RUNNING:  35%|███▌      | 265/750 [elapsed: 04:49 remaining: 08:56]RUNNING:  35%|███▌      | 265/750 [elapsed: 04:56 remaining: 08:56]RUNNING:  36%|███▌      | 271/750 [elapsed: 04:56 remaining: 08:56]                                                                   RUNNING:  36%|███▌      | 271/750 [elapsed: 04:56 remaining: 08:56]RUNNING:  36%|███▌      | 271/750 [elapsed: 05:02 remaining: 08:56]RUNNING:  37%|███▋      | 276/750 [elapsed: 05:02 remaining: 08:57]                                                                   RUNNING:  37%|███▋      | 276/750 [elapsed: 05:02 remaining: 08:57]RUNNING:  37%|███▋      | 276/750 [elapsed: 05:07 remaining: 08:57]RUNNING:  37%|███▋      | 281/750 [elapsed: 05:07 remaining: 08:53]                                                                   RUNNING:  37%|███▋      | 281/750 [elapsed: 05:07 remaining: 08:53]RUNNING:  37%|███▋      | 281/750 [elapsed: 05:16 remaining: 08:53]RUNNING:  39%|███▊      | 289/750 [elapsed: 05:16 remaining: 08:36]                                                                   RUNNING:  39%|███▊      | 289/750 [elapsed: 05:16 remaining: 08:36]RUNNING:  39%|███▊      | 289/750 [elapsed: 05:25 remaining: 08:36]RUNNING:  40%|███▉      | 297/750 [elapsed: 05:25 remaining: 08:22]                                                                   RUNNING:  40%|███▉      | 297/750 [elapsed: 05:25 remaining: 08:22]RUNNING:  40%|███▉      | 297/750 [elapsed: 05:33 remaining: 08:22]RUNNING:  41%|████      | 304/750 [elapsed: 05:33 remaining: 08:14]                                                                   RUNNING:  41%|████      | 304/750 [elapsed: 05:33 remaining: 08:14]RUNNING:  41%|████      | 304/750 [elapsed: 05:39 remaining: 08:14]RUNNING:  41%|████▏     | 310/750 [elapsed: 05:39 remaining: 08:09]                                                                   RUNNING:  41%|████▏     | 310/750 [elapsed: 05:39 remaining: 08:09]RUNNING:  41%|████▏     | 310/750 [elapsed: 05:45 remaining: 08:09]RUNNING:  42%|████▏     | 315/750 [elapsed: 05:45 remaining: 08:07]                                                                   RUNNING:  42%|████▏     | 315/750 [elapsed: 05:45 remaining: 08:07]RUNNING:  42%|████▏     | 315/750 [elapsed: 05:54 remaining: 08:07]RUNNING:  43%|████▎     | 323/750 [elapsed: 05:54 remaining: 07:55]                                                                   RUNNING:  43%|████▎     | 323/750 [elapsed: 05:54 remaining: 07:55]RUNNING:  43%|████▎     | 323/750 [elapsed: 06:01 remaining: 07:55]RUNNING:  44%|████▍     | 329/750 [elapsed: 06:01 remaining: 07:50]                                                                   RUNNING:  44%|████▍     | 329/750 [elapsed: 06:01 remaining: 07:50]RUNNING:  44%|████▍     | 329/750 [elapsed: 06:07 remaining: 07:50]RUNNING:  45%|████▍     | 335/750 [elapsed: 06:07 remaining: 07:44]                                                                   RUNNING:  45%|████▍     | 335/750 [elapsed: 06:07 remaining: 07:44]COMPLETE:  45%|████▍     | 335/750 [elapsed: 06:15 remaining: 07:44]COMPLETE: 100%|██████████| 750/750 [elapsed: 06:15 remaining: 00:00]COMPLETE: 100%|██████████| 750/750 [elapsed: 06:17 remaining: 00:00]
+2022-02-15 20:14:57,172 Sleeping for 10s. Reason: PENDING
+2022-02-15 20:15:07,908 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:15:15,643 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:15:26,382 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:15:36,117 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:15:45,853 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:15:56,587 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:07,321 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:16:13,058 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:16:18,795 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:29,531 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:40,268 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:16:51,001 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:17:00,731 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:17:07,464 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:17:16,198 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:17:25,935 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:17:35,677 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:17:43,405 Sleeping for 9s. Reason: RUNNING
+2022-02-15 20:17:53,139 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:18:03,874 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:18:14,616 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:18:25,352 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:18:36,085 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:18:43,823 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:18:50,550 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:18:57,286 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:19:06,028 Sleeping for 10s. Reason: RUNNING
+2022-02-15 20:19:16,767 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:19:24,495 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:19:32,228 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:19:37,961 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:19:45,694 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:19:52,642 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:19:58,507 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:20:04,240 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:20:12,976 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:20:21,709 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:20:29,435 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:20:36,169 Sleeping for 5s. Reason: RUNNING
+2022-02-15 20:20:41,898 Sleeping for 8s. Reason: RUNNING
+2022-02-15 20:20:50,702 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:20:57,475 Sleeping for 6s. Reason: RUNNING
+2022-02-15 20:21:04,205 Sleeping for 7s. Reason: RUNNING
+2022-02-15 20:21:40,824 Sequence 0 found templates: [b'1mhc_D' b'3kxf_I' b'1k5n_A' b'6v2o_A' b'4u1m_A' b'3fon_C' b'4cvx_A'
+ b'1lk2_A' b'6r2u_F' b'1zag_B' b'6eny_F' b'1s7q_A' b'1t7v_A' b'1s7w_G'
+ b'4g43_D' b'3p73_A' b'6at5_A' b'4cvz_A' b'4d0d_A' b'1k5n_A']
+2022-02-15 20:21:41,220 Could not get MSA/templates for TCR0001: HHSearch failed:
+stdout:
+
+
+stderr:
+- 20:21:40.959 INFO: /tmp/tmpcjqkhqec/query.a3m is in A2M, A3M or FASTA format
+
+- 20:21:40.998 INFO: Searching 20 database HHMs without prefiltering
+
+- 20:21:40.998 INFO: Iteration 1
+
+- 20:21:41.093 WARNING: database contains sequences that exceed maximum allowed size (maxres = 20001). Max sequence length can be increased with parameter -maxres.
+
+- 20:21:41.103 INFO: Scoring 20 HMMs using HMM-HMM Viterbi alignment
+
+- 20:21:41.154 INFO: Alternative alignment: 0
+
+- 20:21:41.161 INFO: 20 alignments done
+
+- 20:21:41.161 INFO: Alternative alignment: 1
+
+- 20:21:41.170 INFO: 20 alignments done
+
+- 20:21:41.170 INFO: Alternative alignment: 2
+
+- 20:21:41.174 INFO: 3 alignments done
+
+- 20:21:41.174 INFO: Alternative alignment: 3
+
+- 20:21:41.207 WARNING: No sequence name preceding following line in 2P24_A:
+'LLMI Uncharacterized protein OS=Alligator mississippiensis GN=Y1Q_024991 PE=4 SV=1'
+
+- 20:21:41.207 WARNING: No sequence name preceding following line in 2P24_A:
+'---------------------------------------------------------------------------------------------------------------------PT-ASATILSQDPAEAlgkNDSVTLLCDVTGFFPQEISLHWEHKGTKVSPSQYSHGPITRdGQTfS--THSLLRVPrpEQEIttvSDYYCVVLHVALVD------------------------------'
+
+- 20:21:41.214 ERROR: Uncharacterized protein OS=Lepisosteus oculatus PE=4 SV=1
+- 20:21:41.214 ERROR: Error in /opt/conda/conda-bld/hhsuite_1616660820288/work/src/hhalignment.cpp:1244: Compress:
+
+- 20:21:41.214 ERROR: 	sequences in 2P24_A do not all have the same number of columns, 
+
+- 20:21:41.214 ERROR: 	
+e.g. first sequence and sequence tr|W5M9L4|W5M9L4_LEPOC.
+
+- 20:21:41.214 ERROR: Check input format for '-M a2m' option and consider using '-M first' or '-M 50'
+
+
+Traceback (most recent call last):
+  File "/share/apps/src/colab/colabfold_batch/colabfold-conda/lib/python3.7/site-packages/colabfold/batch.py", line 1047, in run
+    host_url,
+  File "/share/apps/src/colab/colabfold_batch/colabfold-conda/lib/python3.7/site-packages/colabfold/batch.py", line 568, in get_msa_and_templates
+    query_seqs_unique[index],
+  File "/share/apps/src/colab/colabfold_batch/colabfold-conda/lib/python3.7/site-packages/colabfold/batch.py", line 116, in mk_template
+    hhsearch_result = hhsearch_pdb70_runner.query(a3m_lines)
+  File "/share/apps/src/colab/colabfold_batch/colabfold-conda/lib/python3.7/site-packages/alphafold/data/tools/hhsearch.py", line 96, in query
+    stdout.decode('utf-8'), stderr[:100_000].decode('utf-8')))
+RuntimeError: HHSearch failed:
+stdout:
+
+
+stderr:
+- 20:21:40.959 INFO: /tmp/tmpcjqkhqec/query.a3m is in A2M, A3M or FASTA format
+
+- 20:21:40.998 INFO: Searching 20 database HHMs without prefiltering
+
+- 20:21:40.998 INFO: Iteration 1
+
+- 20:21:41.093 WARNING: database contains sequences that exceed maximum allowed size (maxres = 20001). Max sequence length can be increased with parameter -maxres.
+
+- 20:21:41.103 INFO: Scoring 20 HMMs using HMM-HMM Viterbi alignment
+
+- 20:21:41.154 INFO: Alternative alignment: 0
+
+- 20:21:41.161 INFO: 20 alignments done
+
+- 20:21:41.161 INFO: Alternative alignment: 1
+
+- 20:21:41.170 INFO: 20 alignments done
+
+- 20:21:41.170 INFO: Alternative alignment: 2
+
+- 20:21:41.174 INFO: 3 alignments done
+
+- 20:21:41.174 INFO: Alternative alignment: 3
+
+- 20:21:41.207 WARNING: No sequence name preceding following line in 2P24_A:
+'LLMI Uncharacterized protein OS=Alligator mississippiensis GN=Y1Q_024991 PE=4 SV=1'
+
+- 20:21:41.207 WARNING: No sequence name preceding following line in 2P24_A:
+'---------------------------------------------------------------------------------------------------------------------PT-ASATILSQDPAEAlgkNDSVTLLCDVTGFFPQEISLHWEHKGTKVSPSQYSHGPITRdGQTfS--THSLLRVPrpEQEIttvSDYYCVVLHVALVD------------------------------'
+
+- 20:21:41.214 ERROR: Uncharacterized protein OS=Lepisosteus oculatus PE=4 SV=1
+- 20:21:41.214 ERROR: Error in /opt/conda/conda-bld/hhsuite_1616660820288/work/src/hhalignment.cpp:1244: Compress:
+
+- 20:21:41.214 ERROR: 	sequences in 2P24_A do not all have the same number of columns, 
+
+- 20:21:41.214 ERROR: 	
+e.g. first sequence and sequence tr|W5M9L4|W5M9L4_LEPOC.
+
+- 20:21:41.214 ERROR: Check input format for '-M a2m' option and consider using '-M first' or '-M 50'
+
+
+
+2022-02-15 20:21:41,266 Done
