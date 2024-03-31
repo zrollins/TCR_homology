@@ -12,7 +12,7 @@ This repo contains analysis code for scRNAseq of TCRs from CRC patients, protein
         year = {2024}}
 ```
 # TCR single cell RNA sequencing and V(D)J analysis
-- 'TCR_scRNA_VDJseq_rscripts.tx' (written in R)
+- 'TCR_scRNA_VDJseq_rscripts.txt' (written in R)
 
 # TCR template files for protein-protein structure prediction
 - align_template.rtf (template for Modeller10.1)
