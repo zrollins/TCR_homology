@@ -1,6 +1,6 @@
 This repo contains analysis code for scRNAseq of TCRs from CRC patients, protein-protein structure prediction of the TCR-pMHC complex, and the analysis of molecular dynamics descriptors (hydrogen bonds & Lennard-Jones contacts) used to rank patient-specific TCRs to the CEA neoantigen.
 
-![image info](pics/fig1.png)
+![image info](pics/fig1a.png)
 
 ```
 @article{rollins2024,
