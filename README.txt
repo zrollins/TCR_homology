@@ -37,5 +37,9 @@ This repo contains analysis code for scRNAseq of TCRs from CRC patients, protein
 - rmsd_matrix_plt.py (Figure S3-S5)
 
 # machine learning based methods for predicting TCR-pMHC binding rank
-- ml_methods/
+- ml_predictions/ERGOII_AE_VDJdb.csv
+- ml_predictions/ERGOII_LSTM_McPAS.csv
+- ml_predictions/nettcr2.2_predictions.csv
+- ml_predictions/pMTnet_OMNI_prediction.csv
+- ml_predictions/pMTNet_prediction.csv
 
